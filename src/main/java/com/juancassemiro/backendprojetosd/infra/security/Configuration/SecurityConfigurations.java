@@ -35,7 +35,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/"+currentVersion+"/auth/**").permitAll()
-                        .requestMatchers("/v3/api-docs/swagger-ui-bundle.js","/v3/api-docs/swagger-ui-standalone-preset.js","/v3/api-docs/swagger-initializer.js","/v3/api-docs/swagger-config","/swagger-ui/**","/docs").permitAll()
+                        .requestMatchers("/v3/api-docs/swagger-ui-bundle.js","/v3/api-docs/swagger-ui-standalone-preset.js","/v3/api-docs/swagger-initializer.js","/v3/api-docs/swagger-config","/swagger-ui/**","/docs","/v3/api-docs/develop").permitAll()
                         .anyRequest().authenticated()
 
                 )
