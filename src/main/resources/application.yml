@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: Back-End Projeto SD
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+
+api:
+  security:
+    token:
+      secret: 123456
+
+springdoc:
+  swagger-ui:
+    path: /docs
+    url: /v3/api-docs
+server:
+  port: 8080
