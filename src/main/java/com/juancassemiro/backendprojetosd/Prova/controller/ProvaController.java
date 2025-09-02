@@ -72,4 +72,11 @@ public class ProvaController {
         provaService.deletarProva(idProva);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping
+    public ResponseEntity<List<ProvaDto>> listarTodasProvas(@RequestParam(name = "pagina",defaultValue = "1")int pagina,
+                                                            @RequestParam(name="porPagina",defaultValue = "10")int porPagina){
+        List<ProvaDto> provas = provaService.listarTodasProvas(pagina,porPagina);
+        return ResponseEntity.ok(provas);
+    }
 }
