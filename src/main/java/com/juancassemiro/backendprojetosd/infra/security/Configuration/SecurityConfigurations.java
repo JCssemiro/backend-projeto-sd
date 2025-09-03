@@ -25,7 +25,6 @@ public class SecurityConfigurations {
     @Autowired
     SecurityFilter securityFilter;
 
-    private static final String currentVersion = "v1";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -34,10 +33,28 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-                        .requestMatchers("/"+currentVersion+"/auth/**").permitAll()
+                        .requestMatchers("/v1/auth/**").permitAll()
                         .requestMatchers("/v3/api-docs/swagger-ui-bundle.js","/v3/api-docs/swagger-ui-standalone-preset.js","/v3/api-docs/swagger-initializer.js","/v3/api-docs/swagger-config","/swagger-ui/**","/docs","/v3/api-docs/develop").permitAll()
-                        .anyRequest().permitAll()
 
+                        .requestMatchers(HttpMethod.GET,"/prova").hasAuthority("professor")
+                        .requestMatchers(HttpMethod.GET,"/prova/**").hasAnyAuthority("professor","aluno")
+                        .requestMatchers(HttpMethod.GET,"/prova/aluno/**").hasAnyAuthority("professor","aluno")
+                        .requestMatchers(HttpMethod.PUT,"/prova/**").hasAnyAuthority("professor")
+                        .requestMatchers(HttpMethod.DELETE,"/prova/**").hasAnyAuthority("professor")
+                        .requestMatchers(HttpMethod.POST,"/prova/responder-prova/**").hasAnyAuthority("aluno")
+                        .requestMatchers(HttpMethod.POST,"/prova/cadastro").hasAnyAuthority("professor")
+
+                        .requestMatchers(HttpMethod.GET,"/disciplina/**").hasAnyAuthority("professor","aluno")
+                        .requestMatchers(HttpMethod.PUT,"/disciplina/**").hasAnyAuthority("professor")
+                        .requestMatchers(HttpMethod.DELETE,"/disciplina/**").hasAnyAuthority("professor")
+                        .requestMatchers(HttpMethod.POST,"/disciplina/**").hasAnyAuthority("professor")
+                        .requestMatchers(HttpMethod.GET,"/disciplina").hasAnyAuthority("professor","aluno")
+
+                        .requestMatchers(HttpMethod.GET,"/usuario/**").hasAnyAuthority("professor","aluno")
+                        .requestMatchers(HttpMethod.GET,"/usuario/disciplina/**").hasAnyAuthority("professor","aluno")
+                        .requestMatchers(HttpMethod.POST,"/usuario/cadastro").hasAnyAuthority("professor")
+
+                        .anyRequest().authenticated()
                 )
                 .cors(Customizer.withDefaults())
                 .logout(AbstractHttpConfigurer::disable)

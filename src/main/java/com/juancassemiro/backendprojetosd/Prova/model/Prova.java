@@ -36,7 +36,7 @@ public class Prova {
 
     private Boolean ativa;
 
-    @OneToMany(mappedBy = "prova")
+    @OneToMany(mappedBy = "prova",cascade = CascadeType.ALL)
     private List<Questao> questoes;
 
 }
